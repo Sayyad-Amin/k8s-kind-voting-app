@@ -1,60 +1,53 @@
-# K8s Kind Voting App
+# Voting Application
 
-A comprehensive guide for setting up a Kubernetes cluster using Kind on an AWS EC2 instance, installing and configuring Argo CD, and deploying applications using Argo CD.
+This is a simple voting application that consists of:
+- A frontend voting app written in Python (Flask)
+- A Redis queue to collect votes
+- A .NET worker to process votes
+- A Postgres database to store votes
+- A Node.js web app to show results
 
-## Overview
+## Running with Docker Compose
 
-This guide covers the steps to:
-- Launch an AWS EC2 instance.
-- Install Docker and Kind.
-- Create a Kubernetes cluster using Kind.
-- Install and access kubectl.
-- Set up the Kubernetes Dashboard.
-- Install and configure Argo CD.
-- Connect and manage your Kubernetes cluster with Argo CD.
+1. Make sure you have Docker and Docker Compose installed:
+```
+sudo apt-get update
+sudo apt-get install docker.io docker-compose -y
+sudo systemctl enable docker
+sudo systemctl start docker
+sudo usermod -aG docker $USER
+```
 
+2. Clone this repository and navigate to the project directory:
+```
+cd k8s-kind-voting-app
+```
+
+3. Build and start the application:
+```
+docker-compose up -d
+```
+
+4. Access the application:
+   - Voting interface: http://localhost:5000
+   - Results interface: http://localhost:5001
+
+5. To stop the application:
+```
+docker-compose down
+```
 
 ## Architecture
 
-![Architecture diagram](k8s-kind-voting-app.png)
+- **vote**: A Python web app that lets you vote between two options
+- **redis**: A Redis queue that collects new votes
+- **worker**: A .NET worker that consumes votes from Redis and stores them in Postgres
+- **db**: A Postgres database that stores the votes
+- **result**: A Node.js web app that shows the results of the voting in real time
 
-## Observability
+## Notes for EC2 Deployment
 
-![Grafana diagram](grafana.png)
-![Prometheus diagram](prometheus.png)
-
-* A front-end web app in [Python](/vote) which lets you vote between two options
-* A [Redis](https://hub.docker.com/_/redis/) which collects new votes
-* A [.NET](/worker/) worker which consumes votes and stores them in…
-* A [Postgres](https://hub.docker.com/_/postgres/) database backed by a Docker volume
-* A [Node.js](/result) web app which shows the results of the voting in real time
-
-
-
-## Resume Description
-
-### Project Title: 
-
-Automated Deployment of Scalable Applications on AWS EC2 with Kubernetes and Argo CD
-
-### Description: 
-
-Led the deployment of scalable applications on AWS EC2 using Kubernetes and Argo CD for streamlined management and continuous integration. Orchestrated deployments via Kubernetes dashboard, ensuring efficient resource utilization and seamless scaling.
-
-### Key Technologies:
-
-* AWS EC2: Infrastructure hosting for Kubernetes clusters.
-* Kubernetes Dashboard: User-friendly interface for managing containerized applications.
-* Argo CD: Continuous Delivery tool for automated application deployments.
-
-### Achievements:
-
-Implemented Kubernetes dashboard for visual management of containerized applications on AWS EC2 instances.
-Utilized Argo CD for automated deployment pipelines, enhancing deployment efficiency by 60%.
-Achieved seamless scaling and high availability, supporting 99.9% uptime for critical applications.
-This project description emphasizes your role in leveraging AWS EC2, Kubernetes, and Argo CD to optimize application deployment and management processes effectively.
-
-
-### Aapke DevOps Wale Bhaiya
-### [TrainWithShubham](https://www.trainwithshubham.com/)
-
+When deploying on an EC2 instance, make sure to:
+1. Open ports 5000 and 5001 in your security group
+2. Use the public IP address of your EC2 instance to access the application
+3. Install Docker and Docker Compose as mentioned above
