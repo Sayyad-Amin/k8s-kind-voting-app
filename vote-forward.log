@@ -1,0 +1,9 @@
+Forwarding from 0.0.0.0:5000 -> 80
+Handling connection for 5000
+Handling connection for 5000
+Handling connection for 5000
+Handling connection for 5000
+Handling connection for 5000
+Handling connection for 5000
+E0623 18:43:04.311933  848498 portforward.go:424] "Unhandled Error" err="an error occurred forwarding 5000 -> 80: error forwarding port 80 to pod 934223d331ac58201d8b275e67e391ab8e96b84863e648365282ddb34390e3c1, uid : failed to find sandbox \"934223d331ac58201d8b275e67e391ab8e96b84863e648365282ddb34390e3c1\" in store: not found"
+error: lost connection to pod

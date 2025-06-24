@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-init
+  namespace: voting-app
+spec:
+  template:
+    spec:
+      containers:
+      - name: db-init
+        image: postgres:15-alpine
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          PGPASSWORD=postgres psql -h db -U postgres -c "CREATE TABLE IF NOT EXISTS votes (id VARCHAR(255) NOT NULL UNIQUE, vote VARCHAR(255) NOT NULL, created_at timestamp default NULL);"
+      restartPolicy: Never
+  backoffLimit: 4
